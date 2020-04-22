@@ -1,5 +1,27 @@
 pipeline {
 
+environment {
+
+        // -- Environment definitions
+        HARNESS_COMPONENT                 = "test-executor"
+        HARNESS_MAJOR_VERSION             = sh(returnStdout: true, script: "jq -r .version package.json | awk -F - '{print \$1}'").trim()
+        HARNESS_VERSION_NUMERICAL_ONLY    = "${env.HARNESS_MAJOR_VERSION}.${BUILD_ID}"
+        HARNESS_VERSION                    = "${env.HARNESS_VERSION_NUMERICAL_ONLY}.${GIT_HASH}"
+
+        DESCRIPTION               = sh(script: "jq -r .description package.json", returnStdout: true).trim()
+
+        GIT_HASH                  = sh(returnStdout: true, script: "git rev-parse --short HEAD | cut -c 1-6").trim()
+        PHASE                     = "accept"
+        REPONAME                  = determineRepoName().trim()
+        REPO_URI                  = "${AWS_ACCOUNT_ID}.dkr.ecr.${env.REGION}.amazonaws.com/udl/${env.REPONAME}"
+        CHANGELOG                 = "Changes: "
+        TEST_UNIT_MAXSKIPPED      = "0"
+        TEST_UNIT_MAXFAILED       = "1"
+        UID                       = "${COMPONENT}-${VERSION}-${TARGET_ENVIRONMENT}"
+        ENV                       = "${TARGET_ENVIRONMENT}"
+
+    }
+
 
     // -- Discard old build [max to keep is 10]
     // -----------------------------------------
