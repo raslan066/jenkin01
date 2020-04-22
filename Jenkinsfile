@@ -12,7 +12,7 @@ pipeline {
     // -- Defines the agent we are going to build on [master then children].
     // -----------------------------------------
     agent {
-        label 'running Local'
+        label 'rebuild06'
     }
 
 
