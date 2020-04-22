@@ -4,7 +4,7 @@ pipeline {
     // -- Discard old build [max to keep is 10]
     // -----------------------------------------
     options {
-      ansiColor('xterm')
+
       buildDiscarder(logRotator(numToKeepStr:'10'))
         disableConcurrentBuilds()
     }
