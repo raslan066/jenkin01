@@ -21,9 +21,9 @@ pipeline {
 
     // -- Defines the agent we are going to build on [master then children].
     // -----------------------------------------
-//     agent {
-//         label ''
-//     }
+    agent {
+        label ''
+    }
 
     // -- Begin execution of our pipeline break our process into steps that are logical
     // -----------------------------------------
