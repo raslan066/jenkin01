@@ -1,14 +1,14 @@
 pipeline {
 
-environment {
-
-echo """
-                ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
-                 Environment Constants
-                ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
-                """
-
-    }
+// environment {
+//
+// echo """
+//                 ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
+//                  Environment Constants
+//                 ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
+//                 """
+//
+//     }
 
 
     // -- Discard old build [max to keep is 10]
