@@ -2,23 +2,11 @@ pipeline {
 
 environment {
 
-        // -- Environment definitions
-        HARNESS_COMPONENT                 = "test-executor"
-        HARNESS_MAJOR_VERSION             = sh(returnStdout: true, script: "jq -r .version package.json | awk -F - '{print \$1}'").trim()
-        HARNESS_VERSION_NUMERICAL_ONLY    = "${env.HARNESS_MAJOR_VERSION}.${BUILD_ID}"
-        HARNESS_VERSION                    = "${env.HARNESS_VERSION_NUMERICAL_ONLY}.${GIT_HASH}"
-
-        DESCRIPTION               = sh(script: "jq -r .description package.json", returnStdout: true).trim()
-
-        GIT_HASH                  = sh(returnStdout: true, script: "git rev-parse --short HEAD | cut -c 1-6").trim()
-        PHASE                     = "accept"
-        REPONAME                  = determineRepoName().trim()
-        REPO_URI                  = "${AWS_ACCOUNT_ID}.dkr.ecr.${env.REGION}.amazonaws.com/udl/${env.REPONAME}"
-        CHANGELOG                 = "Changes: "
-        TEST_UNIT_MAXSKIPPED      = "0"
-        TEST_UNIT_MAXFAILED       = "1"
-        UID                       = "${COMPONENT}-${VERSION}-${TARGET_ENVIRONMENT}"
-        ENV                       = "${TARGET_ENVIRONMENT}"
+echo """
+                ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
+                 Environment Constants
+                ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
+                """
 
     }
 
@@ -28,14 +16,14 @@ environment {
     options {
 
       buildDiscarder(logRotator(numToKeepStr:'10'))
-        disableConcurrentBuilds()
+      disableConcurrentBuilds()
     }
 
     // -- Defines the agent we are going to build on [master then children].
     // -----------------------------------------
-    agent {
-        label ''
-    }
+//     agent {
+//         label ''
+//     }
 
     // -- Begin execution of our pipeline break our process into steps that are logical
     // -----------------------------------------
@@ -95,6 +83,7 @@ environment {
         // ------------------------------------------
         stage('VersionStamp') {
             steps {
+            def VERSION = "1.1.1"
 
                 echo """
                 ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
@@ -105,13 +94,29 @@ environment {
                 // -- Set Version number in Jenkins
                 script {
 
-                    currentBuild.displayName = "${env.VERSION}"
-                    currentBuild.description = "${env.VERSION}"
+                    currentBuild.displayName = "${VERSION}"
+                    currentBuild.description = "${VERSION}"
 
                 }
 
             }
         }
+        stage('VersionStamp') {
+                    steps {
+                    def VERSION = "1.1.1"
+
+                        echo """
+                        ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
+                          Set Version Number of SCM State
+                        ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
+                        """
+
+                        // -- Set Version number in Jenkins
+                        sh '''npm install
+                        npm test'''
+
+                    }
+                }
     }
 
  }
