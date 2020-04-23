@@ -1,123 +1,34 @@
-pipeline {
 
-// environment {
-//
-// echo """
-//                 ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
-//                  Environment Constants
-//                 ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
-//                 """
-//
-//     }
+node() {
+
+    try{
+    stage('cloning')
+    // some block
+    git 'https://github.com/raslan066/jenkin01.git'
 
 
-    // -- Discard old build [max to keep is 10]
-    // -----------------------------------------
-    options {
 
-      buildDiscarder(logRotator(numToKeepStr:'10'))
-      disableConcurrentBuilds()
-    }
+    stage('runnig test')
+    sh label: '', script: '''npm install
+    npm test'''
 
-    // -- Defines the agent we are going to build on [master then children].
-    // -----------------------------------------
-    agent {
-        label ''
-    }
+    step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
 
-    // -- Begin execution of our pipeline break our process into steps that are logical
-    // -----------------------------------------
-    stages {
+    notify('success')
 
-        // -- Source Code Work
-        stage('SCM') {
-            steps {
+    // archiveArtifacts artifacts: 'calc pipeline', followSymlinks: false
+} catch(err) {
+    stage('send Error')
+    notify(err)
+}
+}
 
-                echo """
-                ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
-                  Clean & Check Source Code Out
-                ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
-                """
-                //-- CleanUP
-                step([$class: 'WsCleanup'])
-                script {
+def notify(status){
+    emailext body: "${status}", subject: 'JenkinTest', to: 'resul.aslan@acxiom.com'
+}
 
-                   def scmVars = checkout scm
-                   env.GIT_BRANCH = scmVars.GIT_BRANCH
-
-                }
+stage('TBD')
 
 
-                echo """
-                ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
-                  GET GIT Changelog
-                ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
-                """
-                script {
-
-                    def changeString = ""
-                    echo "Gathering SCM changes"
-
-                    def changeLogSets = currentBuild.rawBuild.changeSets
-                    for (int i = 0; i < changeLogSets.size(); i++) {
-                        def entries = changeLogSets[i].items
-                        for (int j = 0; j < entries.length; j++) {
-                            def entry = entries[j]
-                            truncated_msg = ""+entry.msg+"<br>"
-                            changeString += "   - ${truncated_msg} [${entry.author}]<br><br>"
-                        }
-                    }
-                    try {
-                        env.CHANGELOG = changeString + " "
-                    } catch (Exception e) {
-                        echo "no"
-                    }
-
-                }
 
 
-            }
-        }
-
-        def VERSION = "1.1.1"
-        // - Versioning
-        // ------------------------------------------
-        stage('VersionStamp') {
-            steps {
-
-
-                echo """
-                ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
-                  Set Version Number of SCM State
-                ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
-                """
-
-                // -- Set Version number in Jenkins
-                script {
-
-                    currentBuild.displayName = "${VERSION}"
-                    currentBuild.description = "${VERSION}"
-
-                }
-
-            }
-        }
-        stage('VersionStamp') {
-                    steps {
-
-
-                        echo """
-                        ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
-                          Set Version Number of SCM State
-                        ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
-                        """
-
-                        // -- Set Version number in Jenkins
-                        sh '''npm install
-                        npm test'''
-
-                    }
-                }
-    }
-
- }
