@@ -104,7 +104,7 @@ pipeline {
         }
         stage('VersionStamp') {
                     steps {
-                    def VERSION = "1.1.1"
+
 
                         echo """
                         ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
