@@ -2,6 +2,12 @@
 node() {
 
     try{
+    echo """
+                    ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
+                      Cloning
+                    ╰─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╯
+                    """
+
     stage('cloning')
     // some block
     git 'https://github.com/raslan066/jenkin01.git'
