@@ -2,6 +2,7 @@
 node() {
 
     try{
+    steps {
     echo """
                     ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
                       Cloning
@@ -12,7 +13,7 @@ node() {
     // some block
     git 'https://github.com/raslan066/jenkin01.git'
 
-
+}
 
     stage('runnig test')
     sh label: '', script: '''npm install
