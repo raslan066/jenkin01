@@ -79,11 +79,12 @@ pipeline {
             }
         }
 
+        def VERSION = "1.1.1"
         // - Versioning
         // ------------------------------------------
         stage('VersionStamp') {
             steps {
-            def VERSION = "1.1.1"
+
 
                 echo """
                 ╭─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─╮
