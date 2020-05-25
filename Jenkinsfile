@@ -8,10 +8,10 @@ pipeline {
     agent {
             label 'rebuild06'
         }
-    environment {
-    TEST_EXEC_ID  : "TrialV1"
-
-    }
+//     environment {
+//     TEST_EXEC_ID  : "TrialV1"
+//
+//     }
 
     stages {
 
