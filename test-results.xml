@@ -1,0 +1,17 @@
+g<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.0000" tests="4" failures="0">
+  <testsuite name="Root Suite" timestamp="2020-04-22T19:40:16" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Test Suite For Calculator" timestamp="2020-04-22T19:40:16" tests="0" file="/Users/raslan/Desktop/calculator/jenkin01/test/unit/calculator.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Addiditon Testing" timestamp="2020-04-22T19:40:16" tests="4" file="/Users/raslan/Desktop/calculator/jenkin01/test/unit/calculator.js" time="0.0000" failures="0">
+    <testcase name="Test Suite For Calculator Addiditon Testing 1+2 = 3" time="0.0000" classname="1+2 = 3">
+    </testcase>
+    <testcase name="Test Suite For Calculator Addiditon Testing 2+2 = 4" time="0.0000" classname="2+2 = 4">
+    </testcase>
+    <testcase name="Test Suite For Calculator Addiditon Testing 3+2 = 5" time="0.0000" classname="3+2 = 5">
+    </testcase>
+    <testcase name="Test Suite For Calculator Addiditon Testing 3+2 = 5" time="0.0000" classname="3+2 = 5">
+    </testcase>
+  </testsuite>
+</testsuites>

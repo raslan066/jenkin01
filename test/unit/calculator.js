@@ -14,5 +14,8 @@ describe('Test Suite For Calculator',() =>{
         it('3+2 = 5', ()=> {
             assert.equal(app().sum(3,2),5)
         })
+        it('3+2 = 5', ()=> {
+            assert.equal(app().sum('a','b'),'ab')
+        })
     })
 })
